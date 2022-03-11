@@ -13,7 +13,8 @@ int main(int argc, char **argv) {
             while (true) {
                 line = prompt(line);
                 arg_head = parse_line(line, arg_head);
-                show_args(arg_head);
+                exec_path_commands(arg_head);
+                // show_args(arg_head);
             }
 
             // TODO: Free line before exiting

@@ -35,3 +35,25 @@ void show_args(Arg *head) {
         head = head->next;
     }
 }
+
+int find_linked_length(Arg *head) {
+    int len = 0;
+    while (head != NULL) {
+        len++;
+        head = head->next;
+    }
+    return len;
+}
+
+// char *convert_to_array(int len, Arg *head, char *args) {
+// int i = 0;
+// char *buff_args[len];
+
+// while (head != NULL) {
+// buff_args[i] = head->arg_str;
+// i++;
+// head = head->next;
+//}
+// args = buff_args;
+// return buff_args;
+//}
