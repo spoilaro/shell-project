@@ -18,12 +18,13 @@ char *prompt(char *line) {
 // TODO: Parse to commands
 Arg *parse_line(char *line, Arg *head) {
     char *delim = " ";
-    char *parsed_arg = strtok(line, delim);
+    char *buf = line;
+    char *parsed_arg;
 
-    while (parsed_arg != NULL) {
+    while ((parsed_arg = strtok_r(buf, delim, &buf))) {
         head = new_argument(head, parsed_arg);
-        parsed_arg = strtok(NULL, delim);
     }
+
     return head;
 }
 

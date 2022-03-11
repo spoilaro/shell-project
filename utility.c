@@ -14,7 +14,6 @@ Arg *new_argument(Arg *head, char *arg_str) {
         write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
     }
     new->arg_str = arg_str;
-    // new->arg_str = strdup(arg_str);
     new->next = NULL;
 
     if (head == NULL) {
