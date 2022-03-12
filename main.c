@@ -15,6 +15,7 @@ int main(int argc, char **argv) {
                 arg_head = parse_line(line, arg_head);
                 exec_path_commands(arg_head);
                 // show_args(arg_head);
+                arg_head = free_args(arg_head);
             }
 
             // TODO: Free line before exiting

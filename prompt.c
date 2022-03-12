@@ -14,6 +14,9 @@ char *prompt(char *line) {
     getline(&line, &len, stdin);
 
     printf("\n");
+
+    line[strcspn(line, "\n")] = 0;
+
     return line;
 }
 
@@ -30,42 +33,30 @@ Arg *parse_line(char *line, Arg *head) {
 }
 
 void exec_path_commands(Arg *arg_head) {
-    int list_len = find_linked_length(arg_head);
+    int list_len = find_linked_length(arg_head) + 1;
     int i = 0;
     pid_t pid;
-    char *args[list_len - 1];
-    char *command = arg_head->arg_str;
-
-    printf("Arg len %d\n", list_len);
+    char *args[list_len];
 
     while (arg_head != NULL) {
-        int cmp_res = strcmp(command, arg_head->arg_str);
-
-        if (cmp_res == 0) {
-            arg_head = arg_head->next;
-            continue;
-        }
-        args[i] = arg_head->arg_str;
+        args[i] = strdup(arg_head->arg_str);
         arg_head = arg_head->next;
         i++;
     }
 
+    // TODO: Check other locations is path
+    // Path to executable
+    char path[100] = "/bin/";
+    strcat(path, args[0]);
+
     args[list_len - 1] = NULL;
 
-    // for (int j; j < list_len; j++) {
-    // printf("li %s\n", args[j]);
-    //}
-
-    char *test_args[] = {"-l", NULL};
-
-    int rc = fork();
     if ((pid = fork()) == -1) {
         write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
     } else if (pid == 0) {
-        execv("/bin/ls", args);
+        execv(path, args);
     } else {
         int rc_wait = wait(NULL);
-        printf("Parent here\n");
     }
 }
 

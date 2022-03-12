@@ -45,15 +45,12 @@ int find_linked_length(Arg *head) {
     return len;
 }
 
-// char *convert_to_array(int len, Arg *head, char *args) {
-// int i = 0;
-// char *buff_args[len];
-
-// while (head != NULL) {
-// buff_args[i] = head->arg_str;
-// i++;
-// head = head->next;
-//}
-// args = buff_args;
-// return buff_args;
-//}
+Arg *free_args(Arg *head) {
+    Arg *tmp;
+    while (head != NULL) {
+        tmp = head;
+        head = head->next;
+        free(tmp);
+    }
+    return head;
+}

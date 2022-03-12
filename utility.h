@@ -19,3 +19,5 @@ void exec_path_commands(Arg *arg_head);
 int find_linked_length(Arg *head);
 
 char *convert_to_array(int len, Arg *head, char *args);
+
+Arg *free_args(Arg *head);
