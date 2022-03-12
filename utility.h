@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #define ERRMSG "An error has occurred\n"
 #define MAX_ARG_LEN 100
 
@@ -21,3 +23,5 @@ int find_linked_length(Arg *head);
 char *convert_to_array(int len, Arg *head, char *args);
 
 Arg *free_args(Arg *head);
+
+bool built_ins(Arg *head);

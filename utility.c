@@ -31,7 +31,6 @@ Arg *new_argument(Arg *head, char *arg_str) {
 
 void show_args(Arg *head) {
     while (head != NULL) {
-        printf("Arg is %s\n", head->arg_str);
         head = head->next;
     }
 }

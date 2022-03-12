@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,20 +45,35 @@ void exec_path_commands(Arg *arg_head) {
         i++;
     }
 
-    // TODO: Check other locations is path
-    // Path to executable
-    char path[100] = "/bin/";
-    strcat(path, args[0]);
-
     args[list_len - 1] = NULL;
 
     if ((pid = fork()) == -1) {
         write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
     } else if (pid == 0) {
-        execv(path, args);
+        // Path to executable
+        char path[100] = "/bin/";
+        char path_sec[100] = "/usr/bin/";
+        strcat(path, args[0]);
+        if (execv(path, args)) {
+            strcat(path_sec, args[0]);
+            execv(path_sec, args);
+            // TODO: "/usr/bin" path and error handling
+        }
     } else {
         int rc_wait = wait(NULL);
     }
 }
 
-// TODO: Builtins
+bool built_ins(Arg *head) {
+    // Exit built in command
+    if (strcmp(head->arg_str, "exit") == 0) {
+        exit(1);
+    }
+    // TODO: cd
+
+    // TODO: path
+
+    return false;
+}
+
+// TODO: redirecting
