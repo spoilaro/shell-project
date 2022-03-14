@@ -2,6 +2,7 @@
 
 #define ERRMSG "An error has occurred\n"
 #define MAX_ARG_LEN 100
+#define MAX_PATH_LEN 256
 
 typedef struct Arg {
     char *arg_str;
@@ -23,5 +24,10 @@ int find_linked_length(Arg *head);
 char *convert_to_array(int len, Arg *head, char *args);
 
 Arg *free_args(Arg *head);
-
 bool built_ins(Arg *head);
+
+int number_of_builtins();
+
+bool b_cd(Arg *head);
+
+bool b_exit();

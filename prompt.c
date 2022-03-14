@@ -60,20 +60,8 @@ void exec_path_commands(Arg *arg_head) {
             // TODO: "/usr/bin" path and error handling
         }
     } else {
-        int rc_wait = wait(NULL);
+        wait(NULL);
     }
-}
-
-bool built_ins(Arg *head) {
-    // Exit built in command
-    if (strcmp(head->arg_str, "exit") == 0) {
-        exit(1);
-    }
-    // TODO: cd
-
-    // TODO: path
-
-    return false;
 }
 
 // TODO: redirecting
