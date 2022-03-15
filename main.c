@@ -6,7 +6,7 @@
 #include "utility.h"
 
 int main(int argc, char **argv) {
-    char *line;
+    char *line = NULL;
     Arg *arg_head = NULL;
     bool built_in = false;
 
