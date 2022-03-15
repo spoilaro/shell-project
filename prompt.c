@@ -38,6 +38,10 @@ void exec_path_commands(Arg *arg_head) {
     int i = 0;
     pid_t pid;
     char *args[list_len];
+    char *paths[] = {"/bin/", "/usr/bin/"};
+    int j, length;
+
+    int number_of_paths = sizeof(paths) / sizeof(char *);
 
     while (arg_head != NULL) {
         args[i] = strdup(arg_head->arg_str);
@@ -49,16 +53,36 @@ void exec_path_commands(Arg *arg_head) {
 
     if ((pid = fork()) == -1) {
         write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
+
     } else if (pid == 0) {
-        // Path to executable
-        char path[100] = "/bin/";
-        char path_sec[100] = "/usr/bin/";
-        strcat(path, args[0]);
-        if (execv(path, args)) {
-            strcat(path_sec, args[0]);
-            execv(path_sec, args);
-            // TODO: "/usr/bin" path and error handling
+        //// Path to executable
+
+        for (i = 0; i < number_of_paths; i++) {
+            length = 0;
+            j = 0;
+            while (paths[i][length] != '\0') {
+                ++length;
+            }
+            printf("len is %d \n", length);
+
+            for (j = 0; args[0][j] != '\0'; j++, length++) {
+                printf("arg is %c \n", args[0][j]);
+                printf("Path is %s \n", paths[i]);
+                paths[i][length] = args[0][j];
+            }
+            paths[i][length] = '\0';
+
+            printf("Path is %s\n", paths[i]);
+
+            // char path[100] = "/bin/";
+            // char path_sec[100] = "/usr/bin/";
+            // strcat(path, args[0]);
+            // if (execv(path, args)) {
+            // strcat(path_sec, args[0]);
+            // execv(path_sec, args);
+            //}
         }
+
     } else {
         wait(NULL);
     }

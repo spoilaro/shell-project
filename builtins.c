@@ -9,10 +9,18 @@
 
 #include "utility.h"
 
+// A list of built in commands
 char *builtins[] = {"cd", "exit"};
 
+// A list of the addresses of the built in command functions
 bool (*b_func[])(Arg *) = {&b_cd, &b_exit};
 
+// Utility to get the number of different builtin commands
+int number_of_builtins() { return sizeof(builtins) / sizeof(char *); }
+
+// Built in functions have the prefix b_<function name>
+
+// cd
 bool b_cd(Arg *head) {
     char *dest_path;
     dest_path = strdup(head->next->arg_str);
@@ -23,13 +31,15 @@ bool b_cd(Arg *head) {
     return true;
 }
 
+// exit
 bool b_exit(Arg *head) {
     printf("Exiting\n");
     exit(0);
     return true;
 }
 
-int number_of_builtins() { return sizeof(builtins) / sizeof(char *); }
+// path
+bool b_path(Arg *head) { return false; }
 
 // Idea for function pointers was copied from here:
 // https://brennan.io/2015/01/16/write-a-shell-in-c/
