@@ -14,4 +14,4 @@ utility.o: utility.c utility.h
 	gcc -Wall -std=c99 -c utility.c
 
 clean:
-	rm wish main.o prompt.o utility.o
+	rm wish main.o prompt.o utility.o builtins.o
