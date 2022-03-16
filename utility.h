@@ -24,10 +24,13 @@ int find_linked_length(Arg *head);
 char *convert_to_array(int len, Arg *head, char *args);
 
 Arg *free_args(Arg *head);
-bool built_ins(Arg *head);
+
+void * built_ins(Arg *head, char *paths[]);
 
 int number_of_builtins();
 
-bool b_cd(Arg *head);
+void * b_cd(Arg *head, char *paths[]);
 
-bool b_exit();
+void * b_exit(Arg *head, char *paths[]);
+
+void * b_path(Arg *head, char *paths[]);

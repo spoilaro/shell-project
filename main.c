@@ -10,6 +10,8 @@ int main(int argc, char **argv) {
     Arg *arg_head = NULL;
     bool built_in = false;
 
+    char *paths[] = {"/bin/", "/usr/bin/"};
+
     switch (argc) {
         // Interactive mode
         case 1:
@@ -17,7 +19,7 @@ int main(int argc, char **argv) {
                 line = prompt(line);
                 arg_head = parse_line(line, arg_head);
 
-                built_in = built_ins(arg_head);
+                built_in = built_ins(arg_head, paths);
                 if (!built_in) {
                     exec_path_commands(arg_head);
                 }
