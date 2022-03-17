@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     bool built_in = false;
 
     // Paths
-    char *paths[MAX_NUM_OF_PATHS] = {"/usr/bin/"};
+    char *paths[MAX_NUM_OF_PATHS] = {"/bin/"};
 
     switch (argc) {
         // Interactive mode
@@ -23,7 +23,19 @@ int main(int argc, char **argv) {
                 // Handling the path change
                 if (strcmp(arg_head->arg_str, "path") == 0) {
                     // TODO: Change path
-                    change_path(arg_head, paths);
+
+                    // Takes account the actual path command
+                    arg_head = arg_head->next;
+                    int arg_len = find_linked_length(arg_head);
+
+                    // Modifys the path list
+                    for (int i = 0; i < arg_len; i++) {
+                        paths[i] = arg_head->arg_str;
+                        arg_head = arg_head->next;
+                    }
+
+                    printf("Added path(s)\n");
+
                     continue;
                 }
 
