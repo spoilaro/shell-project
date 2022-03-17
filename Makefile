@@ -1,17 +1,11 @@
-wish: main.o prompt.o utility.o builtins.o
-	gcc -Wall -std=c99 -o wish main.o prompt.o utility.o builtins.o
+wish: main.o prompt.o
+	gcc -Wall -std=c99 -o wish main.o prompt.o
 
-main.o: main.c utility.h
+main.o: main.c prompt.h
 	gcc -Wall -std=c99 -c main.c
 
-prompt.o: prompt.c utility.c utility.h
-	gcc -Wall -std=c99 -c prompt.c utility.c
-
-builtins.o: builtins.c utility.h
-	gcc -Wall -std=c99 -c builtins.c
-
-utility.o: utility.c utility.h
-	gcc -Wall -std=c99 -c utility.c
+prompt.o: prompt.c prompt.h
+	gcc -Wall -std=c99 -c prompt.c
 
 clean:
-	rm wish main.o prompt.o utility.o builtins.o
+	rm wish main.o prompt.o
