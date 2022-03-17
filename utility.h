@@ -18,13 +18,13 @@ Arg *new_argument(Arg *head, char *arg_str);
 
 void show_args(Arg *head);
 
-void exec_path_commands(Arg *arg_head, char *paths[]);
+void exec_path_commands(Arg *arg_head, char *path);
 
 int find_linked_length(Arg *head);
 
 char *convert_to_array(int len, Arg *head, char *args);
 
-Arg *free_args(Arg *head);
+Arg *free_args(Arg *head, char *line);
 
 bool built_ins(Arg *head);
 

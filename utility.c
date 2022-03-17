@@ -44,8 +44,10 @@ int find_linked_length(Arg *head) {
     return len;
 }
 
-Arg *free_args(Arg *head) {
+Arg *free_args(Arg *head, char *line) {
     Arg *tmp;
+
+    free(line);
     while (head != NULL) {
         tmp = head;
         head = head->next;

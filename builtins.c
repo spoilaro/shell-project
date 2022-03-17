@@ -28,6 +28,7 @@ bool b_cd(Arg *head) {
     printf("Dest path is %s \n", dest_path);
 
     if (chdir(dest_path) != 0) {
+        printf("Error\n");
         write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
     }
     return true;
