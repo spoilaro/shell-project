@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
     Arg *arg_head = NULL;
     bool built_in = false;
 
+    // Paths
     char *paths[] = {"/bin/", "/usr/bin/"};
 
     switch (argc) {
@@ -19,9 +20,16 @@ int main(int argc, char **argv) {
                 line = prompt(line);
                 arg_head = parse_line(line, arg_head);
 
-                built_in = built_ins(arg_head, paths);
+                // Handling the path change
+                if (strcmp(arg_head->arg_str, "path") == 0) {
+                    // TODO: Change path
+                    change_path(arg_head, paths);
+                    continue;
+                }
+
+                built_in = built_ins(arg_head);
                 if (!built_in) {
-                    exec_path_commands(arg_head);
+                    exec_path_commands(arg_head, paths);
                 }
 
                 arg_head = free_args(arg_head);
