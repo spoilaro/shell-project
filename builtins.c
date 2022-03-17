@@ -25,6 +25,8 @@ bool b_cd(Arg *head) {
     char *dest_path;
     dest_path = strdup(head->next->arg_str);
 
+    printf("Dest path is %s \n", dest_path);
+
     if (chdir(dest_path) != 0) {
         write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
     }

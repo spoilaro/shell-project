@@ -14,6 +14,10 @@ char *prompt(char *line) {
     fprintf(stdout, "wish> ");
     getline(&line, &len, stdin);
 
+    if (strcasecmp(line, "\n") == 0) {
+        return NULL;
+    }
+
     printf("\n");
 
     line[strcspn(line, "\n")] = 0;

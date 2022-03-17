@@ -18,6 +18,9 @@ int main(int argc, char **argv) {
         case 1:
             while (true) {
                 line = prompt(line);
+                if (line == NULL) {
+                    continue;
+                }
                 arg_head = parse_line(line, arg_head);
 
                 // Handling the path change
