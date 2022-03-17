@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     bool built_in = false;
 
     // Paths
-    char *paths[] = {"/bin/", "/usr/bin/"};
+    char *paths[MAX_NUM_OF_PATHS] = {"/usr/bin/"};
 
     switch (argc) {
         // Interactive mode

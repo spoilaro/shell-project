@@ -3,6 +3,7 @@
 #define ERRMSG "An error has occurred\n"
 #define MAX_ARG_LEN 100
 #define MAX_PATH_LEN 256
+#define MAX_NUM_OF_PATHS 100
 
 typedef struct Arg {
     char *arg_str;

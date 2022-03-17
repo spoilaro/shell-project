@@ -49,4 +49,20 @@ bool built_ins(Arg *head) {
     return false;
 }
 
-void change_path(Arg *head, char *paths[]) { printf("Hello World"); }
+void change_path(Arg *head, char *paths[]) {
+    printf("Path Change\n");
+
+    printf("Current path0 is %s \n", paths[0]);
+
+    // Account for the actual path command
+    head = head->next;
+
+    int number_of_new_paths = find_linked_length(head);
+
+    printf("Number of new paths %d \n", number_of_new_paths);
+
+    for (int i = 0; i < number_of_new_paths; i++) {
+        paths[i] = head->arg_str;
+    }
+    printf("Path 0 is %s\n", paths[0]);
+}
