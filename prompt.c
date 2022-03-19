@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 #include "prompt.h"
 
+#include <fcntl.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,23 +40,29 @@ Command *build_command(Command *cmd, char *line) {
         if (index == 0) {
             cmd->command = strdup(parsed_arg);
             args[index] = parsed_arg;
+
+            // Setting redirect filenames
+
         } else {
-            args[index] = parsed_arg;
+            // If ">" or "<" then next token is either output or input filename
             if (strcmp(parsed_arg, ">") == 0) {
-                redirect = index;
+                redirect = 1;
+                continue;
             } else if (strcmp(parsed_arg, "<") == 0) {
-                redirect = -1 * index;
+                redirect = -1;
+                continue;
+            } else if (redirect == 1) {
+                cmd->out_file = strdup(parsed_arg);
+                continue;
+            } else {
+                args[index] = parsed_arg;
             }
+
+            // continue;
         }
 
         index++;
     }
-    if (redirect > 0) {
-        cmd->out_file = strdup(args[redirect + 1]);
-    } else if (redirect < 0) {
-        cmd->in_file = strdup(args[abs(redirect) + 1]);
-    }
-
     args[index] = NULL;
 
     cmd->args = args;
@@ -63,8 +70,19 @@ Command *build_command(Command *cmd, char *line) {
     return cmd;
 }
 
-void exec_command(Command *cmd) {
+bool exec_command(Command *cmd) {
     char dest_path[MAX_PATH_LEN];
+    bool success = true;
+    int out = 0;
+
+    // Opening output stream if output filename was given
+    if (cmd->out_file != NULL) {
+        // https://stackoverflow.com/questions/28466715/using-open-to-create-a-file-in-c
+        if ((out = open(cmd->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644)) ==
+            -1) {
+            write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
+        }
+    }
 
     int rc = fork();
     if (rc < 0) {
@@ -73,8 +91,18 @@ void exec_command(Command *cmd) {
         char *path = "/bin/";
         strcat(dest_path, path);
         strcat(dest_path, cmd->command);
-        execv(dest_path, cmd->args);
+
+        // If output stream, redirect
+        if (out) {
+            dup2(out, 1);
+        }
+        //
+        if (execv(dest_path, cmd->args)) {
+            // TODO: Redirect stderror too
+            success = false;
+        }
     } else {
         int rc = wait(NULL);
     }
+    return success;
 }

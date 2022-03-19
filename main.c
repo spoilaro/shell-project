@@ -8,13 +8,11 @@
 int main(int argc, char **argv) {
     // TODO: REWRITE
     char *line = NULL;
-    Command *cmd;
+    Command *cmd = NULL;
 
     while (true) {
         line = prompt();
         cmd = build_command(cmd, line);
         exec_command(cmd);
     }
-
-    return 0;
 }

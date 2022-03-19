@@ -2,6 +2,8 @@
 #define ERRMSG "An error has occurred\n"
 #define MAX_PATH_LEN 256
 
+#include <stdbool.h>
+
 typedef struct Command {
     int arg_count;
     char *command;
@@ -12,4 +14,4 @@ typedef struct Command {
 
 char *prompt(void);
 Command *build_command(Command *, char *);
-void exec_command(Command *);
+bool exec_command(Command *);

@@ -1,0 +1,9 @@
+-l
+Makefile
+main.c
+main.o
+out.txt
+prompt.c
+prompt.h
+prompt.o
+wish
