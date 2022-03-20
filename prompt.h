@@ -1,3 +1,6 @@
+#ifndef _PROMPTH_
+#define _PROMPTH_
+
 #define MAX_ARG_COUNT 10
 #define ERRMSG "An error has occurred\n"
 #define MAX_PATH_LEN 256
@@ -15,3 +18,5 @@ typedef struct Command {
 char *prompt(void);
 Command *build_command(Command *, char *);
 bool exec_command(Command *);
+
+#endif
