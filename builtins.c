@@ -8,12 +8,22 @@
 
 #include "prompt.h"
 
-char *built_ins[] = {"exit"};
-bool (*b_func_p[])(Command *cmd) = {&b_exit};
+char *built_ins[] = {"exit", "cd"};
+bool (*b_func_p[])(Command *cmd) = {&b_exit, &b_cd};
 
 bool b_exit(Command *cmd) {
     printf("Exiting\n");
     exit(0);
+}
+
+bool b_cd(Command *cmd) {
+    char *dest_path = cmd->args[1];
+
+    if (chdir(dest_path) != 0) {
+        write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
+    }
+
+    return true;
 }
 
 int built_in_count() { return sizeof(built_ins) / sizeof(char *); }

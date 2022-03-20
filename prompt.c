@@ -13,6 +13,7 @@ char *prompt() {
     size_t len = 0;
     char *line;
 
+    fprintf(stdout, "\n");
     fprintf(stdout, "wish> ");
     getline(&line, &len, stdin);
 

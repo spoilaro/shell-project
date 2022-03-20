@@ -6,8 +6,9 @@
 #include "prompt.h"
 
 bool b_exit(Command *);
+bool b_cd(Command *);
 
-bool exec_built_ins(Command *cmd);
+bool exec_built_ins(Command *);
 
 int built_in_count();
 
