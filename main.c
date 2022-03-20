@@ -7,7 +7,6 @@
 #include "prompt.h"
 
 int main(int argc, char **argv) {
-    // TODO: REWRITE
     char *line = NULL;
     Command *cmd = NULL;
 
@@ -16,7 +15,6 @@ int main(int argc, char **argv) {
         cmd = build_command(cmd, line);
 
         if (!exec_built_ins(cmd)) {
-            exec_command(cmd);
             if (!exec_command(cmd)) {
                 printf("Command not found\n");
             }

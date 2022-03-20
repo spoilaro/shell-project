@@ -54,6 +54,9 @@ Command *build_command(Command *cmd, char *line) {
             } else if (redirect == 1) {
                 cmd->out_file = strdup(parsed_arg);
                 continue;
+            } else if (redirect == -1) {
+                cmd->in_file = strdup(parsed_arg);
+                continue;
             } else {
                 args[index] = parsed_arg;
             }
