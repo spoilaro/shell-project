@@ -9,6 +9,17 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+
+Command *init_command(Command *cmd){
+  
+  cmd = malloc(sizeof(Command));
+  if (cmd == NULL){
+    // TODO Error
+  }
+
+  return cmd;
+}
+
 char *prompt() {
     size_t len = 0;
     char *line = NULL;
@@ -27,62 +38,6 @@ char *prompt() {
     }
 }
 
-Command *build_command(Command *cmd, char *line) {
-    char *delim = " ";
-    char *buff = line;
-    char *parsed_arg = NULL;
-    int index = 0;
-    char *args[MAX_ARG_COUNT];
-    int redirect = 0;
-
-    cmd = (Command *)malloc(sizeof(Command));
-
-    while ((parsed_arg = strtok_r(buff, delim, &buff))) {
-
-        if (index == 0) {
-            cmd->command = strdup(parsed_arg);
-            args[index] = parsed_arg;
-
-            // Setting redirect filenames
-
-        } else {
-            // If ">" or "<" then next token is either output or input filename
-            if (strcmp(parsed_arg, ">") == 0) {
-                redirect = 1;
-                continue;
-            } else if (strcmp(parsed_arg, "<") == 0) {
-                redirect = -1;
-                continue;
-            } else if (redirect == 1) {
-                cmd->out_file = strdup(parsed_arg);
-                continue;
-            } else if (redirect == -1) {
-                cmd->in_file = strdup(parsed_arg);
-                continue;
-            } else {
-                args[index] = parsed_arg;
-            }
-
-            // continue;
-        }
-
-        index++;
-    }
-
-    args[index] = NULL;
-
-    // [0] = command, [n] = args
-    cmd->args = args;
-
-    // Account for the command in the array
-    cmd->arg_count = index - 1;
-
-    if (parsed_arg != NULL) {
-        free(parsed_arg);
-    }
-
-    return cmd;
-}
 
 bool exec_command(Command *cmd, char *path) {
     char dest_path[MAX_PATH_LEN];

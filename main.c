@@ -7,7 +7,7 @@
 #include "builtins.h"
 #include "prompt.h"
 
-typedef struct path{
+typedef struct path {
   char data[64];
 } Path;
 
@@ -18,17 +18,13 @@ int main(int argc, char **argv) {
 
   while (true) {
 
+    // wish> prompt -> returns the raw input line
     line = prompt();
-    cmd = build_command(cmd, line);
 
-    if (!exec_built_ins(cmd, line)) {
-      if (!exec_command(cmd, path)) {
-        printf("Command not found\n");
-      }
-    }
+    // Initilizes the cmd structure
+    cmd = Command__init(cmd);
+    Command__build(cmd, line);
 
-    //TODO Free memory
-    line = NULL;
-    cmd = NULL;
+    printf("Arg count is %d \n", cmd->arg_count);
   }
 }
