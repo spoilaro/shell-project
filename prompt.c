@@ -77,19 +77,3 @@ bool exec_command(Command *cmd, char *path) {
     return success;
 }
 
-void free_cmd(Command *cmd) {
-    free(cmd->command);
-    cmd->command = NULL;
-
-    free(cmd->out_file);
-    free(cmd->in_file);
-
-    cmd->out_file = NULL;
-    cmd->in_file = NULL;
-
-    // for (int i = 0; i < cmd->arg_count; i++) {
-    // free(cmd->args[i]);
-    //}
-    free(cmd);
-    cmd = NULL;
-}

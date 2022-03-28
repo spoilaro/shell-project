@@ -6,16 +6,16 @@
 
 #include "builtins.h"
 #include "prompt.h"
+#include "path.h"
 
-typedef struct path {
-  char data[64];
-} Path;
 
 int main(int argc, char **argv) {
   char *line = NULL;
   Command *cmd = NULL;
-  char *path = "/bin/";
+  Path *path = NULL;
 
+  path = Path__init(path);
+ 
   while (true) {
 
     // wish> prompt -> returns the raw input line
@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
     // Initilizes the cmd structure
     cmd = Command__init(cmd);
     Command__build(cmd, line);
+    Command__execute(cmd, "/bin/");
 
     printf("Arg count is %d \n", cmd->arg_count);
   }

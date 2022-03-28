@@ -1,7 +1,4 @@
 #include "command.h"
-#include <stdio.h>
-#include <stdlib.h>
-
 #define _GNU_SOURCE
 
 #include <fcntl.h>
@@ -72,4 +69,30 @@ void Command__build(Command *self, char *line) {
 
   // Account for the command in the array
   self->arg_count = index - 1;
+}
+
+void Command__execute(Command *self, char *path) {
+  char dest_path[256];
+
+  
+
+  strcat(dest_path, path);
+  
+  strcat(dest_path, self->command);
+  printf("path is %s \n", dest_path);
+
+  int rc = fork();
+  if (rc < 0) {
+    // TODO Error
+
+  } else if (rc == 0) {
+
+    if (execv(dest_path, self->args)) {
+      // TODO Error
+      printf("Error executing\n");
+    }
+
+  } else {
+    int rc = wait(NULL);
+  }
 }
