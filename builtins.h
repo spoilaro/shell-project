@@ -5,10 +5,10 @@
 
 #include "prompt.h"
 
-bool b_exit(Command *);
-bool b_cd(Command *);
+bool b_exit(Command *, char *);
+bool b_cd(Command *, char *);
 
-bool exec_built_ins(Command *);
+bool exec_built_ins(Command *, char *);
 
 int built_in_count();
 

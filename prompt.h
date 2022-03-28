@@ -16,7 +16,11 @@ typedef struct Command {
 } Command;
 
 char *prompt(void);
+
 Command *build_command(Command *, char *);
-bool exec_command(Command *);
+
+bool exec_command(Command *, char *);
+
+void free_cmd(Command *);
 
 #endif

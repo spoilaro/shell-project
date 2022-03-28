@@ -11,7 +11,7 @@
 
 char *prompt() {
     size_t len = 0;
-    char *line;
+    char *line = NULL;
 
     fprintf(stdout, "\n");
     fprintf(stdout, "wish> ");
@@ -30,7 +30,7 @@ char *prompt() {
 Command *build_command(Command *cmd, char *line) {
     char *delim = " ";
     char *buff = line;
-    char *parsed_arg;
+    char *parsed_arg = NULL;
     int index = 0;
     char *args[MAX_ARG_COUNT];
     int redirect = 0;
@@ -38,6 +38,7 @@ Command *build_command(Command *cmd, char *line) {
     cmd = (Command *)malloc(sizeof(Command));
 
     while ((parsed_arg = strtok_r(buff, delim, &buff))) {
+
         if (index == 0) {
             cmd->command = strdup(parsed_arg);
             args[index] = parsed_arg;
@@ -67,14 +68,23 @@ Command *build_command(Command *cmd, char *line) {
 
         index++;
     }
+
     args[index] = NULL;
 
+    // [0] = command, [n] = args
     cmd->args = args;
+
+    // Account for the command in the array
+    cmd->arg_count = index - 1;
+
+    if (parsed_arg != NULL) {
+        free(parsed_arg);
+    }
 
     return cmd;
 }
 
-bool exec_command(Command *cmd) {
+bool exec_command(Command *cmd, char *path) {
     char dest_path[MAX_PATH_LEN];
     bool success = true;
     int out = 0;
@@ -92,7 +102,6 @@ bool exec_command(Command *cmd) {
     if (rc < 0) {
         write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
     } else if (rc == 0) {
-        char *path = "/bin/";
         strcat(dest_path, path);
         strcat(dest_path, cmd->command);
 
@@ -100,13 +109,32 @@ bool exec_command(Command *cmd) {
         if (out) {
             dup2(out, 1);
         }
-        //
+        
+        printf("Path is %s\n", dest_path);
         if (execv(dest_path, cmd->args)) {
             // TODO: Redirect stderror too
             success = false;
         }
+
     } else {
         int rc = wait(NULL);
     }
     return success;
+}
+
+void free_cmd(Command *cmd) {
+    free(cmd->command);
+    cmd->command = NULL;
+
+    free(cmd->out_file);
+    free(cmd->in_file);
+
+    cmd->out_file = NULL;
+    cmd->in_file = NULL;
+
+    // for (int i = 0; i < cmd->arg_count; i++) {
+    // free(cmd->args[i]);
+    //}
+    free(cmd);
+    cmd = NULL;
 }
