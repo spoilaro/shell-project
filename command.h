@@ -1,5 +1,7 @@
 #include <stdbool.h>
 
+#define ERRMSG "An error has occured\n"
+
 typedef struct Command {
     int arg_count;
     char *command;
@@ -8,7 +10,6 @@ typedef struct Command {
     char *in_file;
     bool built_in;
 } Command;
-
 
 // Initialize the command
 Command *Command__init(Command *);
@@ -31,5 +32,4 @@ int Command__arg_count(Command *self);
 void Command__build(Command *self, char *line);
 
 void Command__execute(Command *self, char *path);
-
 

@@ -28,18 +28,6 @@ void Command__free(Command *cmd) {
   // TODO Free
 }
 
-char *Command__cmd(Command *self) { return self->command; }
-
-// Get the argument with index
-char *Command__arg(Command *self, int i) { return self->args[i]; }
-
-// Get redirect output file
-char *Command__outfile(Command *self) { return self->out_file; }
-
-// Get redirect input file
-char *Command__infile(Command *self) { return self->in_file; }
-
-int Command__arg_count(Command *self) { return self->arg_count; }
 
 void Command__build(Command *self, char *line) {
   // Builds the actual command from the raw input line
@@ -69,20 +57,18 @@ void Command__build(Command *self, char *line) {
 // Executes not built in commands like "ls"
 void Command__execute(Command *self, char *path) {
   char dest_path[100] ="";
-  char *test_args[] = {"ls", "-la", NULL};
 
   strcat(dest_path, path); 
   strcat(dest_path, self->command);
 
   int rc = fork();
   if (rc < 0) {
-    // TODO Error
+    write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
 
   } else if (rc == 0) {
 
     if (execv(dest_path, self->args)) {
-      // TODO Error
-      printf("Error executing\n");
+      write(STDERR_FILENO, ERRMSG, strlen(ERRMSG));
     }
 
   } else {
