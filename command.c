@@ -15,7 +15,7 @@ Command *Command__init(Command *self) {
   if (self == NULL) {
     // TODO Error
   }
-  self->command = "Hello World\n";
+  self->command = "";
   self->arg_count = 0;
   self->in_file = NULL;
   self->out_file = NULL;
@@ -41,7 +41,7 @@ char *Command__infile(Command *self) { return self->in_file; }
 
 int Command__arg_count(Command *self) { return self->arg_count; }
 
-Command *Command__build(Command *self, char *line) {
+void Command__build(Command *self, char *line) {
   // Builds the actual command from the raw input line
   // char *args[0] will be the command itself
   // char *args[n+1] will be an argument
@@ -62,23 +62,14 @@ Command *Command__build(Command *self, char *line) {
     self->args[index] = strdup(parsed_arg);
     index++;
   }
-
-  //self->args = args;
-
-  printf("Arg 0 is %s \n", self->args[0]);
   // Account for the command in the array
   self->arg_count = index - 1;
-
-  return self;
 }
 
+// Executes not built in commands like "ls"
 void Command__execute(Command *self, char *path) {
   char dest_path[100] ="";
   char *test_args[] = {"ls", "-la", NULL};
-
-  printf("cmd is %s \n", self->command);
-  printf("arg0 is %s \n", self->args[0]);
-  
 
   strcat(dest_path, path); 
   strcat(dest_path, self->command);
@@ -98,3 +89,4 @@ void Command__execute(Command *self, char *path) {
     int rc = wait(NULL);
   }
 }
+

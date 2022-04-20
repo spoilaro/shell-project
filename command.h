@@ -1,4 +1,4 @@
-
+#include <stdbool.h>
 
 typedef struct Command {
     int arg_count;
@@ -6,6 +6,7 @@ typedef struct Command {
     char **args;
     char *out_file;
     char *in_file;
+    bool built_in;
 } Command;
 
 
@@ -27,7 +28,8 @@ char *Command__infile(Command *self);
 
 int Command__arg_count(Command *self);
 
-Command *Command__build(Command *self, char *line);
+void Command__build(Command *self, char *line);
 
 void Command__execute(Command *self, char *path);
+
 
