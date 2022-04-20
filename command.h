@@ -27,7 +27,7 @@ char *Command__infile(Command *self);
 
 int Command__arg_count(Command *self);
 
-void Command__build(Command *self, char *line);
+Command *Command__build(Command *self, char *line);
 
 void Command__execute(Command *self, char *path);
 

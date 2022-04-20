@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 
     // Initilizes the cmd structure
     cmd = Command__init(cmd);
-    Command__build(cmd, line);
+    cmd = Command__build(cmd, line);
     Command__execute(cmd, "/bin/");
 
     printf("Arg count is %d \n", cmd->arg_count);
