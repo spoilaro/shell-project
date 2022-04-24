@@ -43,7 +43,7 @@ void b_exit(char *dest){
 bool run_built_in(Command *cmd){
 
   // List of function names
-  char *func_names[] = {"exit", "cd"};
+  char *func_names[] = {"cd", "exit"};
 
   // Number of built in commands
   int num_func_names = sizeof(func_names) / sizeof(char  *);
@@ -54,7 +54,7 @@ bool run_built_in(Command *cmd){
     // Checks if there is built in command and runs it
     for (int i=0; i<num_func_names; i++){
       if (strcmp(cmd->command, func_names[i]) == 0){
-        (*func_p)(cmd->args[1]);
+        (*func_p[i])(cmd->args[1]);
         return true;
       }
     }
@@ -73,7 +73,6 @@ int main(int argc, char **argv) {
  
   while (true) {
 
-    //(*func_p[0])("C");
 
     // wish> prompt -> returns the raw input line
     line = prompt();
@@ -85,10 +84,10 @@ int main(int argc, char **argv) {
     if (run_built_in(cmd)) {
       continue;
     }
-
     // Executes a program from given path
     // TODO Use Path object
     Command__execute(cmd, "/bin/");
+    Command__free(cmd);
   }
 }
 

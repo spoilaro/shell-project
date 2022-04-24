@@ -58,6 +58,7 @@ void Command__build(Command *self, char *line) {
 void Command__execute(Command *self, char *path) {
   char dest_path[100] ="";
 
+  // Creates path like "/bin/ls/"
   strcat(dest_path, path); 
   strcat(dest_path, self->command);
 
